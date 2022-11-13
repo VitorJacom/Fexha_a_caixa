@@ -6,23 +6,164 @@ public class Comando {
      * @return a opcao do menu
      */
     public static int opcaoMenu(Scanner in) {
-        System.out.println("-------------");
-        System.out.println("|  0- Iniciar o jogo  |  1- Inserir o nome do jogador |  2- Mostrar as regras  | 3- Mostrar o ranking | 4 - Fechar o jogo |"+
-        "5- Mostrar");
+        System.out.println("-------------------------------------------------------------------------------------------------------------------------");
+        System.out.println("|  0- Iniciar o jogo  |  1- Alterar nome do jogador |  2- Mostrar as regras  | 3- Mostrar o ranking | 4 - Fechar o jogo |");
+        System.out.println("-------------------------------------------------------------------------------------------------------------------------");
+
         return in.nextInt();
     }
 
+
     
+    /**
+     * @param jogo
+     * @param in
+     */
+    public static void jogo(Tabuleiro jogo, Scanner in) {
+        if(jogo.pegaNome()== null){jogo.mudaNome(in);}
+        Tabuleiro dummy = new Tabuleiro();
+        boolean acabou =false;
+        while(!acabou){;
+
+            Comando.opcaoJogo(jogo);
+            Comando.mostraTabuleiro(jogo);
+            System.out.print("/---------------------------\\");
+            Comando.mostraTabuleiroDummy(dummy);
+            boolean ff= Comando.acao(jogo, dummy, in);
+            if(ff){ break;}
+            acabou=Comando.acabou(acabou, jogo);
+        }
+        jogo.resetaJogo();
+        
+    }
+
+    /**
+     * @param jogo
+     * @param dummy
+     * @param in
+     * @return
+     */
+    public static boolean acao(Tabuleiro jogo, Tabuleiro dummy, Scanner in) {
+            String opcao = in.next().toUpperCase();
+            try{
+                 int casaFechada = Integer.parseInt(opcao);
+                 dummy.mudaTabuleiro(casaFechada);
+                 return false;
+                
+            }catch(NumberFormatException exception){
+                switch (opcao) {
+                    case "X":
+                        Comando.verificao(jogo, dummy,in);
+                        return false;
+                
+                    case "O":
+                  
+                        return false;
+
+                    case "FF":
+                  
+                        return true;
+
+                    case "R":
+                        Comando.rolaDado(jogo);
+                        return false;
+
+                    default:
+
+                        return false;
+                }
+             }
+        
+    }
+
+    /**
+     * @param jogo
+     * @param dummy
+     * @param in
+     */
+    public static void verificao(Tabuleiro jogo, Tabuleiro dummy,Scanner in) {
+        int casaFechada = 0;
+        for (int i = 0; i < (dummy.pegaTabuleiro()).length; i++) {
+            if(dummy.pegaTabuleiro()[i]){
+                casaFechada += i+1;
+            }  
+        }
+
+        for (int i = 0; i < (dummy.pegaTabuleiro()).length; i++) {
+                if(dummy.pegaTabuleiro()[i]){
+                    if(jogo.pegaTabuleiro()[i]){
+                        System.out.println("A CASA JA FOI FECHADA \n");
+
+                        return;
+                    }
+                }
+        }
+        if(casaFechada!=jogo.mostraDados()){
+            System.out.println("PRECISA USAR O NUMERO EXATO DOS DADOS \n");
+            
+            return;
+        }
+        for (int i = 0; i < (dummy.pegaTabuleiro()).length; i++) {
+            if(dummy.pegaTabuleiro()[i]){
+                jogo.mudaTabuleiro(i+1);
+            }
+
+        }
+        dummy.resetaTabuleiro();
+        jogo.resetaDados();
+
+        
+        
+    }
+
+    /**
+     * 
+     */
+    public static void opcaoJogo(Tabuleiro jogo) {
+        System.out.println("| Escolha as casas para fechar ou abri-las |");
+        System.out.println("| R - Para rolar os dados | X- Para fechar | O - para passar a vez | FF - Para desistir |"); 
+        if(jogo.mostraDados()>0){ System.out.println("Valor dos dados {" + jogo.mostraDados()+ "}");}
+    }
+
+    /**
+     * @param jogo
+     */
+    public static void rolaDado(Tabuleiro jogo){
+        if((jogo.pegaTabuleiro())[6] && (jogo.pegaTabuleiro())[7] && (jogo.pegaTabuleiro())[8] ){
+            System.out.println("\n  Rolando o dado \n");
+            try { Thread.sleep (1000); } catch (InterruptedException ex) {}
+
+            int dado = (int)(Math.random() * 6) + 1;
+            System.out.print("       ["+ dado + "]  ");
+            System.out.println("\n");
+            jogo.mudaDados(dado);
+            return;
+        }
+        System.out.println("\n Rolando os dados \n");
+        try { Thread.sleep (1000); } catch (InterruptedException ex) {}
+        
+
+        int dados = 0;
+        for (int index = 0; index < 2; index++) {
+            int dado = (int)(Math.random() * 6) + 1;
+            dados += dado;
+            System.out.print("   ["+ dado + "]  ");
+        }
+        System.out.println("\n");
+        jogo.mudaDados(dados);
+        return;
+    }
 
     /**
      * @param tabuleiro
      * Imprime o tabuleiro
      */
-    public static void mostraTabuleiro(boolean[] tabuleiro) {
+    public static void mostraTabuleiro(Tabuleiro jogo) {
         System.out.println();
-        for (int i = 0; i < tabuleiro.length; i++) {
+        System.out.print(" ");
+        for (int i = 0; i < (jogo.pegaTabuleiro()).length; i++) {
             System.out.print("|");
-            if(tabuleiro[i]){
+            if((jogo.pegaTabuleiro())[i]){
                 System.out.print("X");
             }else{
                 System.out.print(i+1);
@@ -33,28 +174,23 @@ public class Comando {
     }
 
     /**
-     * @param tabuleiro
-     * @return dados 
-     * valor que foi sorteado nos dados
+     * @param jogo
      */
-    public static int dados(boolean[] tabuleiro) {;
-        tabuleiro[8] = true; tabuleiro[7]=true; tabuleiro[6]=false;
-        int quatidadeDados = tabuleiro.length/6;
-        int dados = 0;
-        if(tabuleiro[8] && tabuleiro[7] && tabuleiro[6]){
-            // ^ ^
-            //  v
-        }else if((tabuleiro.length%6)>0){
-            quatidadeDados += 1;
-            
+    public static void mostraTabuleiroDummy(Tabuleiro jogo) {
+        System.out.println();
+        System.out.print(" ");
+        for (int i = 0; i < (jogo.pegaTabuleiro()).length; i++) {
+            System.out.print("|");
+            if((jogo.pegaTabuleiro())[i]){
+                System.out.print("X");
+            }else{
+                System.out.print(" ");
+            }
+            System.out.print("|");
         }
-        for (int index = 0; index < quatidadeDados; index++) {
-            int dado = (int)(Math.random() * 6) + 1;
-            dados += dado;
-            System.out.println("dado "+ (index+1) +": " +dado);
-        }
-        return dados;
+        System.out.println();
     }
+
 
     /**
      * @param acabou
@@ -62,10 +198,10 @@ public class Comando {
      * @return acabou
      * Verifica o tabuleiro se todas as casas estao fechadas se nao o jogo continua
      */
-    public static boolean acabou(boolean acabou, boolean[] tabuleiro) {
+    public static boolean acabou(boolean acabou, Tabuleiro jogo) {
         acabou = true;
-        for (int i = 0; i < tabuleiro.length; i++) {
-            if(!(tabuleiro[i])){
+        for (int i = 0; i < (jogo.pegaTabuleiro()).length; i++) {
+            if(!((jogo.pegaTabuleiro())[i])){
                 acabou = false;
             }
         }
