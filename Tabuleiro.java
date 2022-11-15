@@ -64,4 +64,8 @@ public class Tabuleiro {
     public void acumalaPonto(int p){
         pontoAcumalado += p;
     }
+
+    public int mostraPonto() {
+        return pontoAcumalado;
+    }
 }

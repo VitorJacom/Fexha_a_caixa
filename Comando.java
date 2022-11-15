@@ -15,7 +15,8 @@ public class Comando {
 
 
     
-    /**
+    /** 
+     * eh o loop do jogo
      * @param jogo
      * @param in
      */
@@ -38,26 +39,31 @@ public class Comando {
     }
 
     /**
+     * 
+     * ve o que o jogador que fazer e manda a na funcao desejada
      * @param jogo
      * @param dummy
      * @param in
-     * @return
+     * @return o fim do jogo se o jogador quiser
      */
     public static boolean acao(Tabuleiro jogo, Tabuleiro dummy, Scanner in) {
             String opcao = in.next().toUpperCase();
+            // Tenta converter os numeros para fechar o dummy
             try{
                  int casaFechada = Integer.parseInt(opcao);
                  dummy.mudaTabuleiro(casaFechada);
                  return false;
                 
             }catch(NumberFormatException exception){
+                //| R - Para rolar os dados | X- Para fechar | P - para passar a vez | FF - Para desistir |
                 switch (opcao) {
                     case "X":
                         Comando.verificao(jogo, dummy,in);
                         return false;
                 
-                    case "O":
-                  
+                    case "P":
+                        jogo.acumalaPonto(jogo.mostraDados());
+                        jogo.resetaDados();
                         return false;
 
                     case "FF":
@@ -80,35 +86,52 @@ public class Comando {
      * @param jogo
      * @param dummy
      * @param in
+     * 
+     * Compara o jogo e dummy para ver se vai poder passar as informacoes do dummy para o jogo
      */
     public static void verificao(Tabuleiro jogo, Tabuleiro dummy,Scanner in) {
         int casaFechada = 0;
-        for (int i = 0; i < (dummy.pegaTabuleiro()).length; i++) {
-            if(dummy.pegaTabuleiro()[i]){
-                casaFechada += i+1;
-            }  
+        // Se o valor dos dados for zero quer dizer que nao foi jogado os dados
+        // e vai avisar o jogador
+        if(jogo.mostraDados()==0){
+            System.out.println("!! ROLE OS DADOS !!");
+            return;
         }
 
+
+        // Se o jogador tentou fechar alguma casa que ja foi fechada o programa vai avisar
         for (int i = 0; i < (dummy.pegaTabuleiro()).length; i++) {
                 if(dummy.pegaTabuleiro()[i]){
                     if(jogo.pegaTabuleiro()[i]){
-                        System.out.println("A CASA JA FOI FECHADA \n");
+                        System.out.println("!! A CASA JA FOI FECHADA !! \n");
 
                         return;
                     }
                 }
         }
+
+        // Conta no total das casas fechadas no dummy
+        for (int i = 0; i < (dummy.pegaTabuleiro()).length; i++) {
+            if(dummy.pegaTabuleiro()[i]){
+                casaFechada += i+1;
+            }  
+        }
+        
+        // verifica se as casas fechadas batem no numero dos dados
         if(casaFechada!=jogo.mostraDados()){
-            System.out.println("PRECISA USAR O NUMERO EXATO DOS DADOS \n");
+            System.out.println("!! PRECISA USAR O NUMERO EXATO DOS DADOS !!\n");
             
             return;
         }
+
+        //Passou todas as verifaçoes ou seja vai fechar as casas
         for (int i = 0; i < (dummy.pegaTabuleiro()).length; i++) {
             if(dummy.pegaTabuleiro()[i]){
                 jogo.mudaTabuleiro(i+1);
             }
 
         }
+        // reseta o tabuleiro dummy e os dados
         dummy.resetaTabuleiro();
         jogo.resetaDados();
 
@@ -117,18 +140,26 @@ public class Comando {
     }
 
     /**
-     * 
+     * Mostra as opcoes do dentro do jogo e a quantidade de casas que precisa se fechada 
      */
     public static void opcaoJogo(Tabuleiro jogo) {
-        System.out.println("| Escolha as casas para fechar ou abri-las |");
-        System.out.println("| R - Para rolar os dados | X- Para fechar | O - para passar a vez | FF - Para desistir |"); 
-        if(jogo.mostraDados()>0){ System.out.println("Valor dos dados {" + jogo.mostraDados()+ "}");}
+        System.out.println("                     | Escolha as casas para fechar ou abri-las |\n");
+        System.out.println("| R - Para rolar os dados | X- Para fechar | P - para passar a vez | FF - Para desistir |"); 
+        if(jogo.mostraPonto()>0){ 
+            System.out.print(" Valor dos pontos perdidos --> {" + jogo.mostraPonto()+"}");
+            if(jogo.mostraDados()>0){ System.out.println(" {" +jogo.mostraDados()+"} <-- Valor dos dados");}
+            else{System.out.println();}  
+        }else if(jogo.mostraDados()>0){ System.out.println(" Valor dos dados --> {" + jogo.mostraDados()+ "}");}
     }
 
     /**
      * @param jogo
+     * Pega o objeto jogo e verifica se ja foi fechado as casas dependo de como vai estar o tabuleiro
+     * ira lancar um ou dois dados
      */
     public static void rolaDado(Tabuleiro jogo){
+
+        // Verifica se ja fechou as casas 7, 8 e 9 se sim irar jogar somente um dado
         if((jogo.pegaTabuleiro())[6] && (jogo.pegaTabuleiro())[7] && (jogo.pegaTabuleiro())[8] ){
             System.out.println("\n  Rolando o dado \n");
             try { Thread.sleep (1000); } catch (InterruptedException ex) {}
@@ -142,6 +173,7 @@ public class Comando {
         System.out.println("\n Rolando os dados \n");
         try { Thread.sleep (1000); } catch (InterruptedException ex) {}
         
+        // Se falhou no primeiro deste ira jogar os dois dados
 
         int dados = 0;
         for (int index = 0; index < 2; index++) {
@@ -156,7 +188,7 @@ public class Comando {
 
     /**
      * @param tabuleiro
-     * Imprime o tabuleiro
+     * Imprime o tabuleiro na qual mostra quais casas estao fechadas e abertas
      */
     public static void mostraTabuleiro(Tabuleiro jogo) {
         System.out.println();
@@ -175,6 +207,7 @@ public class Comando {
 
     /**
      * @param jogo
+     * Mostra o tabuleiro de teste para o jogador ver quais casas ele quer fechar
      */
     public static void mostraTabuleiroDummy(Tabuleiro jogo) {
         System.out.println();
@@ -200,10 +233,17 @@ public class Comando {
      */
     public static boolean acabou(boolean acabou, Tabuleiro jogo) {
         acabou = true;
+
+        // Se achar alguma casa que nao foi fechada o jogo nao termina
         for (int i = 0; i < (jogo.pegaTabuleiro()).length; i++) {
             if(!((jogo.pegaTabuleiro())[i])){
                 acabou = false;
+                return acabou;
             }
+        }
+        // Se não vai parabenizar o jogodor
+        if(acabou){
+            System.out.println("\nParabens voce ganhou com "+ jogo.mostraPonto()+ " pontos perdidos");
         }
         return acabou;
     }
@@ -217,33 +257,35 @@ public class Comando {
         System.out.println("S/N");
         String visualizar = in.next().toUpperCase();
             if (visualizar.equals("N")){ return;}
-                System.out.println();
-                System.out.println("O objetivo do jogo é totalizar o menor número de pontos tentando fechar todas as casas do tabuleiro.");
-                System.out.println("A pontuação de um jogador corresponde aos valores totais obtidos nos dados e que não foram" +
-                "aproveitados para fechar nenhuma casa.");
-                try { Thread.sleep (5000); } catch (InterruptedException ex) {}
-                System.out.println("\nInicialmente todas as casas numeradas de 1 até 9 são deixadas abertas. E inicia-se a partida com"+ 
-                "o lançamento de dois dados.");
-                try { Thread.sleep (5000); } catch (InterruptedException ex) {}
-                System.out.print("O jogador deve decidir quais casas ou números do tabuleiro irá fechar para que sua soma coincida com o"+
-                "valor total obtido nos dados.");
-                try { Thread.sleep (5000); } catch (InterruptedException ex) {}
-                System.out.println("\nPor exemplo, se o jogador obtiver 6 e 4 nos dados, a soma será 10. Portanto, ele poderá optar em fechar"+
-                "qualquer combinação que totalize 10: 1 e 9; 2 e 8; 3 e 7; 4 e 6; 1, 2 e 7; 1, 3 e 6; 1, 4 e 5; 2, 3 e 5; 1, 2,"+
-                " 3 e 4. Os valores da soma devem ser aproveitados integralmente.");
-                try { Thread.sleep (5000); } catch (InterruptedException ex) {}
-                System.out.println("\nSe o jogador tirar 2 e 7, cuja soma é 9, poderá fechar apenas a casa 9, ou qualquer outra combinação de"+
-                "casas que totalize exatamente 9.");
-                try { Thread.sleep (5000); } catch (InterruptedException ex) {}
-                System.out.println("\nO jogador continua jogando os 2 dados e escolhendo que casas ainda abertas devem ser fechadas, até"+
-                "fechar as casas de números 7, 8 e 9. A partir do fechamento destas 3 casas, o jogador passará a lançar apenas 1 dado.");
-                try { Thread.sleep (5000); } catch (InterruptedException ex) {}
-                System.out.println("\nO jogo prossegue até se fechar todas as casas e, sempre que não for possível aproveitar o valor total da"+
-                "soma dos dados, acumula-se este valor como pontuação. Quanto menor a pontuação, maior foi o"+
-                "aproveitamento dos valores dos dados e tanto melhor terá sido o desempenho do jogador.");
-                System.out.println();
-                System.out.println();
-                return;
-            }
+
+
+            System.out.println();
+            System.out.println("O objetivo do jogo é totalizar o menor número de pontos tentando fechar todas as casas do tabuleiro.");
+            System.out.println("A pontuação de um jogador corresponde aos valores totais obtidos nos dados e que não foram" +
+            "aproveitados para fechar nenhuma casa.");
+            try { Thread.sleep (5000); } catch (InterruptedException ex) {}
+            System.out.println("\nInicialmente todas as casas numeradas de 1 até 9 são deixadas abertas. E inicia-se a partida com"+ 
+            "o lançamento de dois dados.");
+            try { Thread.sleep (5000); } catch (InterruptedException ex) {}
+            System.out.print("O jogador deve decidir quais casas ou números do tabuleiro irá fechar para que sua soma coincida com o"+
+            "valor total obtido nos dados.");
+            try { Thread.sleep (5000); } catch (InterruptedException ex) {}
+            System.out.println("\nPor exemplo, se o jogador obtiver 6 e 4 nos dados, a soma será 10. Portanto, ele poderá optar em fechar"+
+            "qualquer combinação que totalize 10: 1 e 9; 2 e 8; 3 e 7; 4 e 6; 1, 2 e 7; 1, 3 e 6; 1, 4 e 5; 2, 3 e 5; 1, 2,"+
+            " 3 e 4. Os valores da soma devem ser aproveitados integralmente.");
+            try { Thread.sleep (5000); } catch (InterruptedException ex) {}
+            System.out.println("\nSe o jogador tirar 2 e 7, cuja soma é 9, poderá fechar apenas a casa 9, ou qualquer outra combinação de"+
+            "casas que totalize exatamente 9.");
+            try { Thread.sleep (5000); } catch (InterruptedException ex) {}
+            System.out.println("\nO jogador continua jogando os 2 dados e escolhendo que casas ainda abertas devem ser fechadas, até"+
+            "fechar as casas de números 7, 8 e 9. A partir do fechamento destas 3 casas, o jogador passará a lançar apenas 1 dado.");
+            try { Thread.sleep (5000); } catch (InterruptedException ex) {}
+            System.out.println("\nO jogo prossegue até se fechar todas as casas e, sempre que não for possível aproveitar o valor total da"+
+            "soma dos dados, acumula-se este valor como pontuação. Quanto menor a pontuação, maior foi o"+
+            "aproveitamento dos valores dos dados e tanto melhor terá sido o desempenho do jogador.");
+            System.out.println();
+            System.out.println();
+            return;
+        }
     
 }
