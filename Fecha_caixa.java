@@ -1,13 +1,16 @@
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Fecha_caixa {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         Scanner in = new Scanner(System.in);
         Tabuleiro jogo1 = new Tabuleiro();
         Boolean fechaPrograma = false;
+        String inputFileName = "Rank_Fecha_Caixa.csv";
         System.out.println("Bem vindo ao jogo Fecha_caixa");
 
-        while (!(fechaPrograma)){
+        while (!(fechaPrograma)) {
+            
             int comando = Comando.opcaoMenu(in);
             switch (comando) {
                 case 0:
@@ -20,22 +23,17 @@ public class Fecha_caixa {
                     Comando.regras(in);
                     break;
                 case 3:
-                    System.out.println("rank");
+                    Cria_rank.lePlacar(inputFileName);
                     break;
                 case 4:
                     fechaPrograma = true;
                     break;
                 default:
-                    System.out.println("Não existe o comando");;
+                    System.out.println("Não existe o comando");
 
-                
             }
         }
 
-
-
-
-        
         in.close();
     }
 }
