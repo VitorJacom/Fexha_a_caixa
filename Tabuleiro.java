@@ -74,6 +74,4 @@ public class Tabuleiro {
         pontoAcumalado = 0;
     }
 
-    
 }
-

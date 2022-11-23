@@ -36,41 +36,40 @@ public class Cria_rank {
                 ordemPlacar[i][0] = placar[0];
                 ordemPlacar[i][1] = placar[1];
             }
-        } catch (FileNotFoundException e) {}
+        } catch (FileNotFoundException e) {
+        }
 
         SelectionSort(ordemPlacar);
 
         for (int i = 0; i < ordemPlacar.length; i++) {
-            System.out.println("["+ranking++ +"--> "+ ordemPlacar[i][0]+ " ]"+ "Pontos perdidos -->" +
-            ordemPlacar[i][1]) ;
+            System.out.println("[" + ranking++ + "--> " + ordemPlacar[i][0] + " ]" + "Pontos perdidos -->" +
+                    ordemPlacar[i][1]);
         }
-
 
     }
 
     public static void addPlacar(Tabuleiro jogo, String inputFileName) throws IOException {
-        try (Scanner rank = new Scanner(new File(inputFileName))){
-            String textToAppend = jogo.pegaNome() + ";"+ Integer.toString(jogo.mostraPonto());
+        try (Scanner rank = new Scanner(new File(inputFileName))) {
+            String textToAppend = jogo.pegaNome() + ";" + Integer.toString(jogo.mostraPonto());
             FileWriter adiciona = new FileWriter(inputFileName, true);
             adiciona.write(textToAppend + "\n");
             adiciona.close();
 
-        }catch(FileNotFoundException e){
+        } catch (FileNotFoundException e) {
             try (FileWriter inputFile = new FileWriter(inputFileName)) {
-                for (int i = 0; i < jogo.pegaNome().length(); i++){
+                for (int i = 0; i < jogo.pegaNome().length(); i++) {
                     inputFile.write((jogo.pegaNome()).charAt(i));
                 }
                 inputFile.write(";");
                 inputFile.write(Integer.toString(jogo.mostraPonto()));
                 System.out.println("\n");
-                
-    
+
             } catch (IOException exception) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         }
-        
+
     }
 
     public static void SelectionSort(String[][] ordem) {
@@ -78,11 +77,11 @@ public class Cria_rank {
         for (int i = 0; i < ordem.length; i++) {
             int idMenor = i;
             for (int j = i; j < ordem.length; j++) {
-                if((Integer.parseInt(ordem[j][1])<(Integer.parseInt(ordem[idMenor][1])))){
+                if ((Integer.parseInt(ordem[j][1]) < (Integer.parseInt(ordem[idMenor][1])))) {
                     idMenor = j;
                 }
             }
-            if (idMenor != i){
+            if (idMenor != i) {
                 String auxilioNome = ordem[i][0];
                 String auxilioPonto = ordem[i][1];
 
@@ -95,6 +94,4 @@ public class Cria_rank {
         }
     }
 
-
-    
 }

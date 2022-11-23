@@ -10,7 +10,7 @@ public class Fecha_caixa {
         System.out.println("Bem vindo ao jogo Fecha_caixa");
 
         while (!(fechaPrograma)) {
-            
+
             int comando = Comando.opcaoMenu(in);
             switch (comando) {
                 case 0:

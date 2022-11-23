@@ -18,9 +18,9 @@ public class Comando {
         System.out.println(
                 "-------------------------------------------------------------------------------------------------------------------------");
 
-        try{
-            opcao= in.nextInt();
-        }catch(InputMismatchException e){
+        try {
+            opcao = in.nextInt();
+        } catch (InputMismatchException e) {
             String lixeira = in.next();
             opcao = -1;
         }
@@ -99,7 +99,7 @@ public class Comando {
 
                     return false;
             }
-        }catch(ArrayIndexOutOfBoundsException exception){
+        } catch (ArrayIndexOutOfBoundsException exception) {
             return false;
         }
 
@@ -183,8 +183,9 @@ public class Comando {
      */
     public static void rolaDado(Tabuleiro jogo) {
 
-        // Verifica se ja rolou os dados se sim vai avisar o jogador e vai rertornar os comandos
-        if(jogo.mostraDados()>0){
+        // Verifica se ja rolou os dados se sim vai avisar o jogador e vai rertornar os
+        // comandos
+        if (jogo.mostraDados() > 0) {
             System.out.println("\n  !! VOCE JA ROLOU OS DADOS !! \n");
             return;
         }
