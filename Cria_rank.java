@@ -2,6 +2,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.nio.file.Path;
 import java.util.Scanner;
 
 public class Cria_rank {
@@ -46,14 +48,28 @@ public class Cria_rank {
 
     }
 
-    public static void addPlacar(Tabuleiro jogo, String inputFileName) {
-        try (FileWriter inputFile = new FileWriter(inputFileName)) {
-            for (int i = 0; i < jogo.pegaNome().length(); i++)
-                inputFile.write((jogo.pegaNome()).charAt(i));
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+    public static void addPlacar(Tabuleiro jogo, String inputFileName) throws IOException {
+        try (Scanner rank = new Scanner(new File(inputFileName))){
+            String textToAppend = jogo.pegaNome() + ";"+ Integer.toString(jogo.mostraPonto());
+            FileWriter adiciona = new FileWriter(inputFileName, true);
+            adiciona.write("\n"+ textToAppend);
+            adiciona.close();
+
+        }catch(FileNotFoundException e){
+            try (FileWriter inputFile = new FileWriter(inputFileName)) {
+                for (int i = 0; i < jogo.pegaNome().length(); i++){
+                    inputFile.write((jogo.pegaNome()).charAt(i));
+                }
+                inputFile.write(";");
+                inputFile.write(Integer.toString(jogo.mostraPonto()));
+                
+    
+            } catch (IOException exception) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
         }
+        
     }
 
     public static void SelectionSort(String[][] ordem) {
@@ -76,7 +92,8 @@ public class Cria_rank {
                 ordem[idMenor][1] = auxilioPonto;
             }
         }
-
-
     }
+
+
+    
 }

@@ -1,6 +1,6 @@
+import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
-
 
 public class Comando {
     /**
@@ -32,8 +32,9 @@ public class Comando {
      * 
      * @param jogo
      * @param in
+     * @throws IOException
      */
-    public static void jogo(Tabuleiro jogo, Scanner in) {
+    public static void jogo(Tabuleiro jogo, Scanner in) throws IOException {
         if (jogo.pegaNome() == null) {
             jogo.mudaNome(in);
         }
@@ -267,8 +268,9 @@ public class Comando {
      * @return acabou
      *         Verifica o tabuleiro se todas as casas estao fechadas se nao o jogo
      *         continua
+     * @throws IOException
      */
-    public static boolean acabou(boolean acabou, Tabuleiro jogo) {
+    public static boolean acabou(boolean acabou, Tabuleiro jogo) throws IOException {
         acabou = true;
 
         // Se achar alguma casa que nao foi fechada o jogo nao termina
@@ -281,6 +283,7 @@ public class Comando {
         // Se não vai parabenizar o jogodor
         if (acabou) {
             System.out.println("\nParabens voce ganhou com " + jogo.mostraPonto() + " pontos perdidos");
+            Cria_rank.addPlacar(jogo, "Rank_Fecha_Caixa.csv");
         }
         return acabou;
     }
