@@ -52,7 +52,7 @@ public class Cria_rank {
         try (Scanner rank = new Scanner(new File(inputFileName))){
             String textToAppend = jogo.pegaNome() + ";"+ Integer.toString(jogo.mostraPonto());
             FileWriter adiciona = new FileWriter(inputFileName, true);
-            adiciona.write("\n"+ textToAppend);
+            adiciona.write(textToAppend + "\n");
             adiciona.close();
 
         }catch(FileNotFoundException e){
@@ -62,6 +62,7 @@ public class Cria_rank {
                 }
                 inputFile.write(";");
                 inputFile.write(Integer.toString(jogo.mostraPonto()));
+                System.out.println("\n");
                 
     
             } catch (IOException exception) {
