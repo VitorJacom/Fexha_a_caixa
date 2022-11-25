@@ -2,11 +2,19 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.nio.file.Path;
 import java.util.Scanner;
 
 public class Cria_rank {
+    /**
+     * @param inputFileName
+     * @throws IOException
+     * 
+     *                     Le o placar, se existir o placar vai mostrar em ordem de
+     *                     menos pontos perdidos
+     *                     Se nao tiver nenhum jogador ganhado ainda ele vai falar
+     *                     que precisa ao menos ter um
+     *                     ganhador
+     */
     public static void lePlacar(String inputFileName) throws IOException {
         String arquivo;
         int linhas = 0;
@@ -16,7 +24,6 @@ public class Cria_rank {
         try (Scanner rank = new Scanner(new File(inputFileName))) {
             while ((rank.hasNextLine())) {
                 arquivo = rank.nextLine();
-                String[] placar = arquivo.split(";");
                 linhas++;
 
             }
@@ -48,6 +55,13 @@ public class Cria_rank {
 
     }
 
+    /**
+     * @param jogo
+     * @param inputFileName
+     * @throws IOException
+     * 
+     *                     Adiciona o ganhador no arquivo csv dos ranking
+     */
     public static void addPlacar(Tabuleiro jogo, String inputFileName) throws IOException {
         try (Scanner rank = new Scanner(new File(inputFileName))) {
             String textToAppend = jogo.pegaNome() + ";" + Integer.toString(jogo.mostraPonto());
@@ -72,8 +86,11 @@ public class Cria_rank {
 
     }
 
+    /**
+     * @param ordem
+     *              Organiza os vetores do placar
+     */
     public static void SelectionSort(String[][] ordem) {
-        int menor = Integer.parseInt(ordem[0][1]);
         for (int i = 0; i < ordem.length; i++) {
             int idMenor = i;
             for (int j = i; j < ordem.length; j++) {

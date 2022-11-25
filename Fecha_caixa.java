@@ -2,6 +2,11 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class Fecha_caixa {
+    /**
+     * @param args
+     * @throws IOException
+     *                     Menu inicial do jogo que vai definir o que vai fazer
+     */
     public static void main(String[] args) throws IOException {
         Scanner in = new Scanner(System.in);
         Tabuleiro jogo1 = new Tabuleiro();
