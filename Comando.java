@@ -6,7 +6,7 @@ public class Comando {
     /**
      * mostra as opcao
      * 
-     * @param in
+     * @param in Scanner do terminal
      * @return a opcao do menu
      */
     public static int opcaoMenu(Scanner in) {
@@ -30,9 +30,9 @@ public class Comando {
     /**
      * eh o loop do jogo
      * 
-     * @param jogo
-     * @param in
-     * @throws IOException
+     * @param jogo o objeto do programa
+     * @param in Scanner do terminal
+     * @throws IOException ignora os problemas do file write
      */
     public static void jogo(Tabuleiro jogo, Scanner in) throws IOException {
         if (jogo.pegaNome() == null) {
@@ -61,9 +61,9 @@ public class Comando {
      * 
      * ve o que o jogador que fazer e manda a na funcao desejada
      * 
-     * @param jogo
-     * @param dummy
-     * @param in
+     * @param jogo o objeto do jogo principal
+     * @param dummy o objeto do jogo de teste
+     * @param in Scanner do terminal
      * @return o fim do jogo se o jogador quiser
      */
     public static boolean acao(Tabuleiro jogo, Tabuleiro dummy, Scanner in) {
@@ -106,9 +106,9 @@ public class Comando {
     }
 
     /**
-     * @param jogo
-     * @param dummy
-     * @param in
+     * @param jogo o objeto do jogo
+     * @param dummy o objeto do jogo de teste
+     * @param in Scanner do terminal
      * 
      *              Compara o jogo e dummy para ver se vai poder passar as
      *              informacoes do dummy para o jogo
@@ -176,7 +176,7 @@ public class Comando {
     }
 
     /**
-     * @param jogo
+     * @param jogo o objeto do jogo
      *             Pega o objeto jogo e verifica se ja foi fechado as casas dependo
      *             de como vai estar o tabuleiro
      *             ira lancar um ou dois dados
@@ -224,7 +224,7 @@ public class Comando {
     }
 
     /**
-     * @param tabuleiro
+     * @param tabuleiro das casas do jogo
      *                  Imprime o tabuleiro na qual mostra quais casas estao
      *                  fechadas e abertas
      */
@@ -244,7 +244,7 @@ public class Comando {
     }
 
     /**
-     * @param jogo
+     * @param jogo o objeto do jogo
      *             Mostra o tabuleiro de teste para o jogador ver quais casas ele
      *             quer fechar
      */
@@ -264,12 +264,12 @@ public class Comando {
     }
 
     /**
-     * @param acabou
-     * @param tabuleiro
-     * @return acabou
+     * @param acabou verificação em boolean se acabou
+     * @param tabuleiro das casas do jgo
+     * @return acabou a verificação em boolean se acabou
      *         Verifica o tabuleiro se todas as casas estao fechadas se nao o jogo
      *         continua
-     * @throws IOException
+     * @throws IOException ignora os problemas do print write
      */
     public static boolean acabou(boolean acabou, Tabuleiro jogo) throws IOException {
         acabou = true;
@@ -290,7 +290,7 @@ public class Comando {
     }
 
     /**
-     * @param in
+     * @param in Scanner do terminal
      *           verifica se o jogador quer saber das regras
      */
     public static void regras(Scanner in) {

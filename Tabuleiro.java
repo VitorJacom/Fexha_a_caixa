@@ -20,7 +20,7 @@ public class Tabuleiro {
     }
 
     /**
-     * @param in
+     * @param in Scanner do terminal
      *           Muda o nome do jogador
      */
     public void mudaNome(Scanner in) {
@@ -45,7 +45,7 @@ public class Tabuleiro {
     }
 
     /**
-     * @param casa
+     * @param casa do tabuleiro do jogo em formato de array
      *             fecha ou abre a casa solicitada
      */
     public void mudaTabuleiro(int casa) {
@@ -66,7 +66,7 @@ public class Tabuleiro {
     }
 
     /**
-     * @param n
+     * @param n numero do dado
      *          muda o valor dos dados
      */
     public void mudaDados(int n) {
@@ -74,7 +74,7 @@ public class Tabuleiro {
     }
 
     /**
-     * @return dados
+     * @return dados retorna o valor dos dados
      * 
      */
     public int mostraDados() {
@@ -98,7 +98,7 @@ public class Tabuleiro {
     }
 
     /**
-     * @param p
+     * @param p o valor para ser incrementado
      *          acumula pontos perdidos nos dados
      */
     public void acumalaPonto(int p) {
@@ -106,7 +106,7 @@ public class Tabuleiro {
     }
 
     /**
-     * @return pontoAcumalado
+     * @return pontoAcumalado valor dos pontoAcumalado
      */
     public int mostraPonto() {
         return pontoAcumalado;

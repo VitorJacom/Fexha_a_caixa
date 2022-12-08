@@ -3,8 +3,8 @@ import java.util.Scanner;
 
 public class Fecha_caixa {
     /**
-     * @param args
-     * @throws IOException
+     * @param args args
+     * @throws IOException exception do file write
      *                     Menu inicial do jogo que vai definir o que vai fazer
      */
     public static void main(String[] args) throws IOException {

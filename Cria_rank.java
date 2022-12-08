@@ -6,8 +6,8 @@ import java.util.Scanner;
 
 public class Cria_rank {
     /**
-     * @param inputFileName
-     * @throws IOException
+     * @param inputFileName nome do arquivo
+     * @throws IOException  porcausa do filw write
      * 
      *                     Le o placar, se existir o placar vai mostrar em ordem de
      *                     menos pontos perdidos
@@ -56,9 +56,9 @@ public class Cria_rank {
     }
 
     /**
-     * @param jogo
-     * @param inputFileName
-     * @throws IOException
+     * @param jogo o objeto do jogo
+     * @param inputFileName  nome do arquivo
+     * @throws IOException  porcausa do file write
      * 
      *                     Adiciona o ganhador no arquivo csv dos ranking
      */
@@ -87,7 +87,7 @@ public class Cria_rank {
     }
 
     /**
-     * @param ordem
+     * @param ordem o array para ser organizado
      *              Organiza os vetores do placar
      */
     public static void SelectionSort(String[][] ordem) {
